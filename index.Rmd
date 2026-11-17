@@ -425,14 +425,16 @@ For select stations, in situ spectroradiometric measurements were measured using
 #| error: false
 #| message: false
 #| warning: false
-#| out.width: "49%"
+#| out.width: "99%"
 #| fig.align: 'center'
 #| fig.show: 'hold'
-#| fig.cap: 'Spectroradiometric measurements of seagrasses at Cadiz Bay (left). After these measurements were taken, the measured seagrass area was then extracted with a 15 cm diameter PVC pipe (right). This ensures that the collected seagrass biomass and their corresponding seagrass cover is directly related to the aforementioned measurements.'
+#| fig.cap: 'Spectroradiometric measurements of seagrasses at Cadiz Bay (A). After these measurements were taken, the measured seagrass area was then extracted with a 15 cm diameter PVC pipe (B). This ensures that the collected seagrass biomass and their corresponding seagrass cover is directly related to the aforementioned measurements (C). The samples were then cleaned and sorted into aboveground biomass containing leaves (D) and belowground biomass containing roots and rhizomes (E).'
 
-knitr::include_graphics(c('image/field_spectroradiometric_measurement.jpg','image/field_sampling.jpg'))
-
-## add pictures of sorting agb, bgb, and the imprint of core on seagrass meadow
+# knitr::include_graphics(c('image/field_spectroradiometric_measurement.jpg','image/field_sampling.jpg',
+#                           'image/field_coreprint.jpg','image/lab_agb.jpg',
+#                           'image/lab_bgb.jpg'
+#                           ))
+knitr::include_graphics('image/Combined_image_M&M.png')
 ```
 
 Post-smoothing, only the wavelengths from 400 nm to 900 nm were retained and a min-max standardisation was performed.
