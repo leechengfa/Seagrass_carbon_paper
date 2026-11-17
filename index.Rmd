@@ -406,7 +406,7 @@ Carbon\,content\,(g\,per\,C/g) = \frac{Measured\,Carbon\,(g)}{Sample\,Dry\,weigh
 A subset of the samples were used to test for possible water content in the sample. These samples were placed in a 105 &deg;C oven and measured after 2 hours and 3 hours. Any difference in weight was attributed to water content loss (Equation \@ref(eq:correctedDW)). Since only a subset was used in this test, the results were averaged and used to correct for the sample dry weight in Equation \@ref(eq:carbon).
 
 \begin{equation}
-Corrected\,dry\,weight = \frac{\textit{Pre-oven dry weight}}{\textit{Post-oven dry weight}} \times \textit{Sample dry weight used in the carbon measurement} (\#eq:correctedDW)
+Corrected\,dry\,weight = \frac{Pre-oven\,dry\,weight}{Post-oven\,dry\,weight} \times Subsampled\,dry\,weight (\#eq:correctedDW)
 \end{equation}
 
 The [difference between the TC and IC content is the total organic carbon content (TOC)](https://www.shimadzu.com/an/apl/24168/index.html) (Equation \@ref(eq:toc)). The TOC is the mass of organic carbon in a unit mass of a dry weight sample.
