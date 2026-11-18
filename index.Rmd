@@ -26,9 +26,9 @@ library(ggplot2)
 library(geomtextpath)
 library(patchwork)
 library(terra)
+library(ggpubr)
 # library(ggiraph)
 # library(stringr)
-# library(ggpubr)
 # library(ggtext)
 # library(see)
 ```
@@ -542,6 +542,15 @@ ggplot(df.ndvi.agb, aes(x = A_per_m2, y = ndvi)) +
   geom_point() +
   stat_function(fun = function(x) {0.67937*(1-0.84806*exp(-0.019857*x))}, colour = 'blue') +
   xlab('Aboveground Biomass (g/m²)') + ylab('NDVI') +
+  annotate('text', x = 300, y = 0.5, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*e^(c*"*"*x) ), 
+           list(x = "AGB", y = "NDVI",
+                a = 0.67937 %>% round(2),
+                b = 0.84806 %>% round(2),
+                c = 0.019857 %>% round(2)
+           )) %>% 
+              as.expression() %>%
+              as.character(), 
+          parse = TRUE, colour = 'blue') +
   theme(panel.background = element_rect(fill = "transparent", colour = NA),
         axis.line = element_line(colour = "black"),
         axis.title = element_text(size = base_size),
@@ -578,6 +587,7 @@ plt.agcNDVI.log <- df %>%
     geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
     geom_point() +
     xlab('NDVI') + ylab('Log-transformed\naboveground carbon stock (g/m²)') +
+    stat_regline_equation(label.x.npc = 'left', label.y.npc = 'top', decreasing = TRUE, aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), colour = 'blue') +
     theme(panel.background = element_rect(fill = "transparent", colour = NA),
           axis.line = element_line(colour = "black"),
           axis.title = element_text(size = base_size),
@@ -593,6 +603,14 @@ plt.agcNDVI.curve <- df %>%
     # geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
     geom_point() +
     xlab('NDVI') + ylab('Aboveground carbon stock (g/m²)') +
+    annotate('text', x = 0.1, y = 100, hjust = 0, vjust = 0, label = substitute(y == a *"*"* exp^(b*"*"*x),
+             list(x = "NDVI", y = "AGC",
+                  a = 0.35 %>% round(2),
+                  b = 8.2 %>% round(2)
+             )) %>%
+                as.expression() %>%
+                as.character(),
+            parse = TRUE, colour = 'blue') +
     theme(panel.background = element_rect(fill = "transparent", colour = NA),
           axis.line = element_line(colour = "black"),
           axis.title = element_text(size = base_size),
@@ -938,6 +956,11 @@ knitr::kable(table.data,
 
 Work in progress
 
+
+
+<!-- Genera specific soil organic carbon stocks (Krause, 2023) // and belowground biomass (check their Supp Mat); Cymodocea is similar to Zostera, so for now, any errors or differences are not too great. however, care needs to be taken if extrapolated to other genera, such as Posidonia. Ruppia is also similar to Zostera. -->
+
+
 ## Supplementary data
 
 
@@ -954,6 +977,15 @@ df %>%
     stat_function(fun = function(x) {0.675 - 0.75 * exp(-0.08*x)}, colour = 'blue') +
     geom_point() +
     xlab('Aboveground carbon stock (g/m²)') + ylab('NDVI') +
+    annotate('text', x = 75, y = 0.5, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*e^(c*"*"*x) ), 
+             list(x = "AGB", y = "NDVI",
+                  a = 0.675 %>% round(2),
+                  b = 0.75 %>% round(2),
+                  c = -0.08 %>% round(2)
+             )) %>% 
+                as.expression() %>%
+                as.character(), 
+            parse = TRUE, colour = 'blue') +
     theme(panel.background = element_rect(fill = "transparent", colour = NA),
           axis.line = element_line(colour = "black"),
           axis.title = element_text(size = base_size),
