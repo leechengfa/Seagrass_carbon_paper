@@ -660,7 +660,7 @@ AGC = 0.35 * e^{8.2*NDVI} (\#eq:ndviagc)
 #| error: false
 #| message: false
 #| warning: false
-# #| fig.cap: 'Ratio of seagrass aboveground biomass (AGB) to belowground biomass (BGB) across the different sites and years.'
+#| #| fig.cap: 'Ratio of seagrass aboveground biomass (AGB) to belowground biomass (BGB) across the different sites and years.'
 #| fig.cap: 'Ratio of seagrass belowground biomass (BGB) to aboveground biomass (AGB) across the different sites and years.'
 
 df.agbbgb <- df %>%
