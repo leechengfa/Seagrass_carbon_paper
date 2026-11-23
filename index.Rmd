@@ -51,7 +51,7 @@ Work in progress
 #| fig.align: 'center'
 #| fig.cap: 'Overview map of the three study sites. Basemap: CartoDB Light No Labels.'
 
-knitr::include_graphics('map/Overview_site_map.png')
+knitr::include_graphics('map/Overview_site_map_v2.png')
 ```
 #### Bourgneuf Bay
 
@@ -334,50 +334,60 @@ df <- df %>%
          )
 ```
 
-The fieldwork was conducted at all three sites as shown in Table 1. Other than the fieldwork done in 2025, additional field data for Bourgneuf Bay conducted in 2018 and 2019 were also included to the dataset.
 
-```{r tableNoOfData}
+```{r removeanomalousdata}
 #| echo: false
 #| error: false
 #| message: false
 #| warning: false
 
-count_valid <- function(vector) {
-  return(sum(!is.na(vector)))
-}
-
-table.data <- data.frame(
-  list(
-    "Site" = c('Bourgneuf Bay', 'Bourgneuf Bay', 'Bourgneuf Bay', 'Ria de Aveiro', 'Cadiz Bay', 'Total'),
-    
-    "Year" = c(2018, 2019, 2025, 2025, 2025, ''),
-    
-    "Radiometry" = c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi), 
-                     sum(c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi)))),
-    
-    "Aboveground biomass" = c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2), 
-                              sum(c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2)))),
-    
-    "Belowground biomass" = c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2), 
-                              sum(c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2)))), 
-    
-    "Aboveground carbon" = c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A), 
-                             sum(c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A)))),
-    
-    "Belowground carbon" = c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B), 
-                             sum(c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B)))),
-    
-    "Source" = c('@zoffoli2020', '@zoffoli2020', 'Current study', 'Current study', 'Current study', '')
-  )
-)
-
-names(table.data) <- c('Site', 'Year', 'Radiometry', 'Aboveground biomass', 'Belowground biomass', 'Aboveground carbon', 'Belowground carbon', 'Source')
-
-knitr::kable(table.data, 
-             format = "pipe",
-             align = 'c',
-             caption = 'Available data across the different field campaign.')
+df <- df %>%
+  dplyr::filter(!ID %in% c("NR43", "RG5", "RG12", "RG13", "NR52", "NR44", "ST02", "ST03", "ST05"))
 ```
+The fieldwork was conducted at all three sites as shown in Table 1. Other than the fieldwork done in 2025, additional field data for Bourgneuf Bay conducted in 2018 and 2019 were also included to the dataset.
+
+<!-- ```{r tableNoOfData} -->
+<!-- # #| echo: false -->
+<!-- # #| error: false -->
+<!-- # #| message: false -->
+<!-- # #| warning: false -->
+<!-- #  -->
+<!-- # count_valid <- function(vector) { -->
+<!-- #   return(sum(!is.na(vector))) -->
+<!-- # } -->
+<!-- #  -->
+<!-- # table.data <- data.frame( -->
+<!-- #   list( -->
+<!-- #     "Site" = c('Bourgneuf Bay', 'Bourgneuf Bay', 'Bourgneuf Bay', 'Ria de Aveiro', 'Cadiz Bay', 'Total'), -->
+<!-- #      -->
+<!-- #     "Year" = c(2018, 2019, 2025, 2025, 2025, ''), -->
+<!-- #      -->
+<!-- #     "Radiometry" = c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi),  -->
+<!-- #                      sum(c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi)))), -->
+<!-- #      -->
+<!-- #     "Aboveground biomass" = c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2),  -->
+<!-- #                               sum(c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2)))), -->
+<!-- #      -->
+<!-- #     "Belowground biomass" = c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2),  -->
+<!-- #                               sum(c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2)))),  -->
+<!-- #      -->
+<!-- #     "Aboveground carbon" = c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A),  -->
+<!-- #                              sum(c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A)))), -->
+<!-- #      -->
+<!-- #     "Belowground carbon" = c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B),  -->
+<!-- #                              sum(c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B)))), -->
+<!-- #      -->
+<!-- #     "Source" = c('@zoffoli2020', '@zoffoli2020', 'Current study', 'Current study', 'Current study', '') -->
+<!-- #   ) -->
+<!-- # ) -->
+<!-- #  -->
+<!-- # names(table.data) <- c('Site', 'Year', 'Radiometry', 'Aboveground biomass', 'Belowground biomass', 'Aboveground carbon', 'Belowground carbon', 'Source') -->
+<!-- #  -->
+<!-- # knitr::kable(table.data,  -->
+<!-- #              format = "pipe", -->
+<!-- #              align = 'c', -->
+<!-- #              caption = 'Available data across the different field campaign.') -->
+<!-- ``` -->
 
 For every station, seagrass cover was visually assessed with the aid of a 50 cm by 50 cm quadrat. The location of each station was measured using an Emlid Reach RS2+ GNSS receiver with RTK corrections.
 
@@ -434,7 +444,7 @@ For select stations, in situ spectroradiometric measurements were measured using
 #                           'image/field_coreprint.jpg','image/lab_agb.jpg',
 #                           'image/lab_bgb.jpg'
 #                           ))
-knitr::include_graphics('image/Combined_image_M&M.png')
+knitr::include_graphics('image/Combined_image_M&M_V2.png')
 ```
 
 Post-smoothing, only the wavelengths from 400 nm to 900 nm were retained and a min-max standardisation was performed.
@@ -505,6 +515,15 @@ reflectance <- rbind(
 
 base_size <- 14
 plot_label_wavelength <- 550
+theme_axis <- theme(panel.background = element_rect(fill = "transparent", colour = NA),
+                    axis.line = element_line(colour = "black"),
+                    axis.title = element_text(size = base_size*1.8),
+                    axis.text = element_text(size = base_size*1.4),
+                    legend.title = element_text(size = base_size*1.6),
+                    legend.text = element_text(size = base_size*1.4),
+                    legend.position = 'inside', legend.position.inside = c(1, 0.05), legend.justification = c('right','bottom'),
+                    legend.background = element_rect(fill = "transparent", colour = 'black'), legend.margin = margin(t = 3, r = 5, b = 12, l = 5, unit = 'pt')
+                    )
 
 reflectance %>%
   dplyr::filter(ID %in% c("ST24", "zos_14.2018", "zos_c.2018",  "zos_e.2018", "zos_15.2018", "RR36", "zos_21.2018") %>% replace_na(TRUE)) %>% # data selection
@@ -514,14 +533,8 @@ reflectance %>%
     # geom_labelline(aes(label = paste(round(A_per_m2, 2), 'g/m²'), hjust = ID), linewidth = 0.7, straight = TRUE) +
     scale_colour_viridis_c(option = 'viridis', direction = -1, end = 0.95) +
     scale_hjust_discrete(range = c(0.1, 0.9)) +
-    xlab('Wavelength (nm)') + ylab('Min-max standardised reflectance') + labs(colour = expression("Dry weight (g/" * m^2 * ")")) +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA),
-          axis.line = element_line(colour = "black"),
-          axis.title = element_text(size = base_size),
-          axis.text = element_text(size = base_size*0.8),
-          legend.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size*0.8)
-          )
+    xlab('Wavelength (nm)') + ylab('Standardised\nreflectance') + labs(colour = "Dry weight\n(g/m²)") +
+    theme_axis
 ```
 
 
@@ -530,19 +543,20 @@ reflectance %>%
 #| error: false
 #| message: false
 #| warning: false
-#| fig.cap: 'Relationship between the spectroradiometer-derived NDVI values and the seagrass aboveground biomass.'
+#| fig.cap: 'Relationship between the spectroradiometer-derived NDVI values and the seagrass aboveground biomass (AGB) (left) and the spectroradiometer-derived NDVI values and the seagrass aboveground carbon (AGC) (right).'
 
 df.ndvi.agb <- df %>%
-  select(ID, A_per_m2, ndvi, year, site) %>%
-  dplyr::filter(!ID %in% c("NR43", "RG5", "RG12", "RG13", "NR52", "NR44", "ST02", "ST03", "ST05"))
+  select(ID, A_per_m2, ndvi, year, site) 
 
 # base_size <- 14 # change here if previous value is no longer desired
 
-ggplot(df.ndvi.agb, aes(x = A_per_m2, y = ndvi)) +
-  geom_point() +
-  stat_function(fun = function(x) {0.67937*(1-0.84806*exp(-0.019857*x))}, colour = 'blue') +
-  xlab('Aboveground Biomass (g/m²)') + ylab('NDVI') +
-  annotate('text', x = 300, y = 0.5, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*e^(c*"*"*x) ), 
+geom_point_setting <- geom_point(shape = 21, fill = 'grey', size = 3, stroke = 1.3)
+
+plt.ndvi_agb <- ggplot(df.ndvi.agb, aes(x = A_per_m2, y = ndvi)) +
+  geom_point_setting +
+  stat_function(fun = function(x) {0.67937*(1-0.84806*exp(-0.019857*x))}, colour = 'black') +
+  xlab('AGB (g/m²)') + ylab('NDVI') +
+  annotate('text', x = 20, y = 0.1, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*"*"*e^{c*"*"*x} ), 
            list(x = "AGB", y = "NDVI",
                 a = 0.67937 %>% round(2),
                 b = 0.84806 %>% round(2),
@@ -550,14 +564,27 @@ ggplot(df.ndvi.agb, aes(x = A_per_m2, y = ndvi)) +
            )) %>% 
               as.expression() %>%
               as.character(), 
-          parse = TRUE, colour = 'blue') +
-  theme(panel.background = element_rect(fill = "transparent", colour = NA),
-        axis.line = element_line(colour = "black"),
-        axis.title = element_text(size = base_size),
-        axis.text = element_text(size = base_size*0.8),
-        legend.title = element_text(size = base_size),
-        legend.text = element_text(size = base_size*0.8)
-        )
+          parse = TRUE, colour = 'black', size = base_size*0.3) +
+  theme_axis
+
+plt.ndvi_agc <- df %>%
+  select(ID, Carbon_stock_A, ndvi, year, site, Group) %>%
+  ggplot(aes(x = Carbon_stock_A, y = ndvi)) +
+    stat_function(fun = function(x) {0.675 - 0.75 * exp(-0.08*x)}, colour = 'black') +
+    geom_point_setting +
+    xlab('AGC (g/m²)') + ylab('NDVI') +
+    annotate('text', x = 0.0, y = 0.73, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*"*"*e^{c*"*"*x} ), 
+             list(x = "AGC", y = "NDVI",
+                  a = 0.675 %>% round(2),
+                  b = 0.75 %>% round(2),
+                  c = -0.08 %>% round(2)
+             )) %>% 
+                as.expression() %>%
+                as.character(), 
+            parse = TRUE, colour = 'black', size = base_size*0.3) +
+    theme_axis
+
+plt.ndvi_agb + plt.ndvi_agc
 ```
 
 
@@ -574,79 +601,85 @@ ggplot(df.ndvi.agb, aes(x = A_per_m2, y = ndvi)) +
 
 
 
-```{r lgAGCvsNDVI}
-#| echo: false
-#| error: false
-#| message: false
-#| warning: false
-#| fig.cap: 'Relationship between the seagrass aboveground carbon stock and the spectroradiometer-derived NDVI values.'
+<!-- ```{r lgAGCvsNDVI} -->
+<!-- # #| echo: false -->
+<!-- # #| error: false -->
+<!-- # #| message: false -->
+<!-- # #| warning: false -->
+<!-- # #| fig.cap: 'Relationship between the seagrass aboveground carbon (AGC) and the spectroradiometer-derived NDVI values.' -->
+<!-- #  -->
+<!-- # relabel_eq <- function(label, r2) { -->
+<!-- #   new_label <- gsub("italic\\(x\\)", "NDVI", label) %>% -->
+<!-- #     gsub("italic\\(y\\)", "ln(AGC)", .) -->
+<!-- #      -->
+<!-- #   output <- paste("atop(", new_label, ",", r2, ")") -->
+<!-- #    -->
+<!-- #   return(output) -->
+<!-- # } -->
+<!-- #  -->
+<!-- # # plt.agcNDVI.log <- df %>% -->
+<!-- # #   select(ID, Carbon_stock_A, ndvi, year, site, Group) %>% -->
+<!-- # #   ggplot(aes(x = ndvi, y = log(Carbon_stock_A))) + -->
+<!-- # #     geom_smooth(method = 'lm', colour = 'black') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves -->
+<!-- # #     geom_point_setting + -->
+<!-- # #     xlab('NDVI') + ylab('Log-transformed\nAGC (g/m²)') + -->
+<!-- # #       # stat_regline_equation(label.x.npc = 'centre', label.y.npc = 'bottom', decreasing = TRUE, aes(label = paste("atop(", ..eq.label.., ",", ..adj.rr.label.., ")")), colour = 'black', size = base_size*0.4, vjust = 0, hjust = 0.5) + -->
+<!-- # #     stat_regline_equation(label.x.npc = 'centre', label.y.npc = 'bottom', decreasing = TRUE, aes(label = relabel_eq(..eq.label.., ..adj.rr.label..)), colour = 'black', size = base_size*0.3, vjust = 0, hjust = 0.5) + -->
+<!-- # #     theme_axis -->
+<!-- #  -->
+<!-- # plt.agcNDVI.curve <- df %>% -->
+<!-- #   select(ID, Carbon_stock_A, ndvi, year, site, Group) %>% -->
+<!-- #   ggplot(aes(x = ndvi, y = Carbon_stock_A)) + -->
+<!-- #     stat_function(fun = function(x) {0.35 * exp(8.2*x)}, colour = 'black') + -->
+<!-- #     # geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves -->
+<!-- #     geom_point_setting + -->
+<!-- #     xlab('NDVI') + ylab('AGC (g/m²)') + -->
+<!-- #     annotate('text', x = 0.1, y = 75, hjust = 0, vjust = 0, label = substitute(y == a *"*"* e^(b*"*"*x), -->
+<!-- #              list(x = "NDVI", y = "AGC", -->
+<!-- #                   a = 0.35 %>% round(2), -->
+<!-- #                   b = 8.2 %>% round(2) -->
+<!-- #              )) %>% -->
+<!-- #                 as.expression() %>% -->
+<!-- #                 as.character(), -->
+<!-- #              parse = TRUE, colour = 'black', size = base_size*0.4) + -->
+<!-- #     theme_axis -->
+<!-- #  -->
+<!-- # # plt.agcNDVI.log + plt.agcNDVI.curve -->
+<!-- # plt.agcNDVI.curve -->
+<!-- ``` -->
 
-plt.agcNDVI.log <- df %>%
-  select(ID, Carbon_stock_A, ndvi, year, site, Group) %>%
-  ggplot(aes(x = ndvi, y = log(Carbon_stock_A))) +
-    geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
-    geom_point() +
-    xlab('NDVI') + ylab('Log-transformed\naboveground carbon stock (g/m²)') +
-    stat_regline_equation(label.x.npc = 'left', label.y.npc = 'top', decreasing = TRUE, aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), colour = 'blue') +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA),
-          axis.line = element_line(colour = "black"),
-          axis.title = element_text(size = base_size),
-          axis.text = element_text(size = base_size*0.8),
-          legend.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size*0.8)
-          )
+This is the equation used for the estimation of aboveground carbon from NDVI:
 
-plt.agcNDVI.curve <- df %>%
-  select(ID, Carbon_stock_A, ndvi, year, site, Group) %>%
-  ggplot(aes(x = ndvi, y = Carbon_stock_A)) +
-    stat_function(fun = function(x) {0.35 * exp(8.2*x)}, colour = 'blue') +
-    # geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
-    geom_point() +
-    xlab('NDVI') + ylab('Aboveground carbon stock (g/m²)') +
-    annotate('text', x = 0.1, y = 100, hjust = 0, vjust = 0, label = substitute(y == a *"*"* exp^(b*"*"*x),
-             list(x = "NDVI", y = "AGC",
-                  a = 0.35 %>% round(2),
-                  b = 8.2 %>% round(2)
-             )) %>%
-                as.expression() %>%
-                as.character(),
-            parse = TRUE, colour = 'blue') +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA),
-          axis.line = element_line(colour = "black"),
-          axis.title = element_text(size = base_size),
-          axis.text = element_text(size = base_size*0.8),
-          legend.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size*0.8)
-          )
+\begin{equation}
+AGC = 0.35 * e^{8.2*NDVI} (\#eq:ndviagc)
+\end{equation}
 
-plt.agcNDVI.log + plt.agcNDVI.curve
-```
 
 ```{r AGBBGBratio}
 #| echo: false
 #| error: false
 #| message: false
 #| warning: false
-#| fig.cap: 'Ratio of seagrass aboveground biomass to belowground biomass across the different sites and years.'
+# #| fig.cap: 'Ratio of seagrass aboveground biomass (AGB) to belowground biomass (BGB) across the different sites and years.'
+#| fig.cap: 'Ratio of seagrass belowground biomass (BGB) to aboveground biomass (AGB) across the different sites and years.'
 
 df.agbbgb <- df %>%
   select(ID, A_per_m2, B_per_m2, year, site, Group) %>%
   mutate(AGB_BGB = A_per_m2/B_per_m2, 
+         BGB_AGB = B_per_m2/A_per_m2,
          location = paste(site, year, sep = "_")) %>%
-  dplyr::filter(!is.na(AGB_BGB))
+  # dplyr::filter(!is.na(AGB_BGB))
+  dplyr::filter(!is.na(BGB_AGB))
 
 df.agbbgb %>%
-  mutate(location = factor(location, labels = c('Ria de Aveiro\n(2025)', 'Bourgneuf Bay\n(2019)', 'Bourgneuf Bay\n(2025)', 'Cadiz Bay\n(2025)'))) %>%
-  ggplot(aes(x = location, y = AGB_BGB)) +
-    geom_boxplot() +
-    xlab('Sites (Year)') + ylab('Aboveground biomass to\nbelowground biomass ratio') +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA),
-          axis.line = element_line(colour = "black"),
-          axis.title = element_text(size = base_size),
-          axis.text = element_text(size = base_size*0.8),
-          legend.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size*0.8)
-          )
+  mutate(location = factor(location, labels = c('Ria de\nAveiro\n(2025)', 'Bourgneuf\nBay\n(2019)', 'Bourgneuf\nBay\n(2025)', 'Cadiz\nBay\n(2025)'))) %>%
+  # ggplot(aes(x = location, y = AGB_BGB)) +
+  ggplot(aes(x = location, y = BGB_AGB)) +
+    geom_boxplot(fill = 'grey') +
+    # ylab('AGB/BGB ratio') +
+    ylab('BGB/AGB ratio') +
+    theme_axis +
+    theme(axis.title.x = element_blank())
 ```
 
 
@@ -669,7 +702,8 @@ ndvi_to_agb <- function(ndvi) {
 df.agbbgb.table <- df.agbbgb %>%
   group_by(year, site, location) %>%
   select(-ID) %>%
-  summarise(mean_AGB_BGB = mean(AGB_BGB)) 
+  summarise(mean_AGB_BGB = mean(AGB_BGB),
+            mean_BGB_AGB = mean(BGB_AGB)) 
 
 ## Ria de Aveiro
 icecreams.AV <- rast('raster/AV_S2C_MSIL2A_20250715_Pred_BFRD_V1_3.tif')
@@ -696,10 +730,14 @@ seagrass_agc.AV <- mean_TOC %>%
   
 # AGB to BGB using mean ratio approach
 seagrass_bgb.AV <- seagrass_agb.AV %>%
-  "/"(df.agbbgb.table %>% 
-        dplyr::filter(location == 'AV_2025') %>%
-        select(mean_AGB_BGB) %>%
-        pull())
+  # "/"(df.agbbgb.table %>%
+  #       dplyr::filter(location == 'AV_2025') %>%
+  #       select(mean_AGB_BGB) %>%
+  #       pull())
+  "*"(df.agbbgb.table %>%
+      dplyr::filter(location == 'AV_2025') %>%
+      select(mean_BGB_AGB) %>%
+      pull())
 
 # BGB to carbon stock --> belowground carbon stock map
 # multiplied by site carbon content, belowground
@@ -734,9 +772,13 @@ seagrass_agc.BB <- mean_TOC %>%
   
 # AGB to BGB using mean ratio approach
 seagrass_bgb.BB <- seagrass_agb.BB %>%
-  "/"(df.agbbgb.table %>% 
+  # "/"(df.agbbgb.table %>% 
+  #       dplyr::filter(location == 'BB_2025') %>%
+  #       select(mean_AGB_BGB) %>%
+  #       pull())
+  "*"(df.agbbgb.table %>% 
         dplyr::filter(location == 'BB_2025') %>%
-        select(mean_AGB_BGB) %>%
+        select(mean_BGB_AGB) %>%
         pull())
 
 # BGB to carbon stock --> belowground carbon stock map
@@ -772,9 +814,13 @@ seagrass_agc.CB <- mean_TOC %>%
   
 # AGB to BGB using mean ratio approach
 seagrass_bgb.CB <- seagrass_agb.CB %>%
-  "/"(df.agbbgb.table %>% 
+  # "/"(df.agbbgb.table %>% 
+  #       dplyr::filter(location == 'CB_2025') %>%
+  #       select(mean_AGB_BGB) %>%
+  #       pull())
+  "*"(df.agbbgb.table %>% 
         dplyr::filter(location == 'CB_2025') %>%
-        select(mean_AGB_BGB) %>%
+        select(mean_BGB_AGB) %>%
         pull())
 
 # BGB to carbon stock --> belowground carbon stock map
@@ -794,14 +840,14 @@ seagrass_bgc.CB <- mean_TOC %>%
 #| warning: false
 
 # ## export rasters as tif for mapping in QGIS
-# writeRaster(seagrass_agc.AV, filename = 'raster/AV_aboveground_carbon.tif')
-# writeRaster(seagrass_bgc.AV, filename = 'raster/AV_belowground_carbon.tif')
+# writeRaster(seagrass_agc.AV, filename = 'raster/AV_aboveground_carbon.tif', overwrite = TRUE)
+# writeRaster(seagrass_bgc.AV, filename = 'raster/AV_belowground_carbon.tif', overwrite = TRUE)
 # 
-# writeRaster(seagrass_agc.BB, filename = 'raster/BB_aboveground_carbon.tif')
-# writeRaster(seagrass_bgc.BB, filename = 'raster/BB_belowground_carbon.tif')
+# writeRaster(seagrass_agc.BB, filename = 'raster/BB_aboveground_carbon.tif', overwrite = TRUE)
+# writeRaster(seagrass_bgc.BB, filename = 'raster/BB_belowground_carbon.tif', overwrite = TRUE)
 # 
-# writeRaster(seagrass_agc.CB, filename = 'raster/CB_aboveground_carbon.tif')
-# writeRaster(seagrass_bgc.CB, filename = 'raster/CB_belowground_carbon.tif')
+# writeRaster(seagrass_agc.CB, filename = 'raster/CB_aboveground_carbon.tif', overwrite = TRUE)
+# writeRaster(seagrass_bgc.CB, filename = 'raster/CB_belowground_carbon.tif', overwrite = TRUE)
 ```
 
 
@@ -848,7 +894,7 @@ seagrass_bgc.CB <- mean_TOC %>%
 # 
 # map.ndvi <- import.ndvi('data/ndvi/S2C_MSIL2A_20250715T113341_N0511_R080_T29TNF_20250715T165315_ndvi.tif')
 
-knitr::include_graphics('map/Predicted_carbon_map.png')
+knitr::include_graphics('map/Predicted_carbon_map_v2.png')
 ```
 
 
@@ -958,41 +1004,131 @@ Work in progress
 
 
 
-<!-- Genera specific soil organic carbon stocks (Krause, 2023) // and belowground biomass (check their Supp Mat); Cymodocea is similar to Zostera, so for now, any errors or differences are not too great. however, care needs to be taken if extrapolated to other genera, such as Posidonia. Ruppia is also similar to Zostera. -->
+<!-- Genera specific soil organic carbon stocks (Krause, 2025) // and belowground biomass (check their Supp Mat); Cymodocea is similar to Zostera, so for now, any errors or differences are not too great. however, care needs to be taken if extrapolated to other genera, such as Posidonia. Ruppia is also similar to Zostera. large persistent seagrasses species are associated with higher C stocks than ephermeral species (can we synthesise the phenology from Bede's paper to talk about this point? Zostera, especially across latitude, might have a different or maybe compromised[?] stocks); need to consider species, if not functional groups. inaccurate estimates if extrapolating between functional groups. luckily the three species in our study sites are similar enough based on Krause's figures. Our meadows are assumed persistent and recurring, so we shouldn't have the issue of Cstock input previously deposited from other species. however, we might need to acknowledge the possibility of overestimating true stock given our parameters (so we can still do estimated maximum stock?) -->
+
+<!-- Krause 2025 did an estimate of stocks under the assumption that 1/3 of biomass is organic carbon. This is only slightly higher than our obtained results. -->
+
+<!-- Krause states that geomorphic features also contribute to Cstock. this is not covered in our paper and would contribute to any errors in estimation.  -->
+
+<!-- given all these from Krause, a separate soil carbon analysis/work is definitely needed (link in to our next paper) -->
+
 
 
 ## Supplementary data
 
+<!-- ```{r SupMatNDVIagcCurve} -->
+<!-- # #| echo: false -->
+<!-- # #| error: false -->
+<!-- # #| message: false -->
+<!-- # #| warning: false -->
+<!-- # #| fig.cap: 'Supplementary Material: Relationship between the spectroradiometer-derived NDVI values and the seagrass aboveground carbon (AGC).' -->
+<!-- #  -->
+<!-- # df %>% -->
+<!-- #   select(ID, Carbon_stock_A, ndvi, year, site, Group) %>% -->
+<!-- #   ggplot(aes(x = Carbon_stock_A, y = ndvi)) + -->
+<!-- #     stat_function(fun = function(x) {0.675 - 0.75 * exp(-0.08*x)}, colour = 'black') + -->
+<!-- #     geom_point_setting + -->
+<!-- #     xlab('AGC (g/m²)') + ylab('NDVI') + -->
+<!-- #     annotate('text', x = 50, y = 0.2, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*"*"*e^(c*"*"*x) ),  -->
+<!-- #              list(x = "AGC", y = "NDVI", -->
+<!-- #                   a = 0.675 %>% round(2), -->
+<!-- #                   b = 0.75 %>% round(2), -->
+<!-- #                   c = -0.08 %>% round(2) -->
+<!-- #              )) %>%  -->
+<!-- #                 as.expression() %>% -->
+<!-- #                 as.character(),  -->
+<!-- #             parse = TRUE, colour = 'black', size = base_size*0.4) + -->
+<!-- #     theme_axis -->
+<!-- ``` -->
 
-```{r SupMatNDVIagcCurve}
+```{r SupMatTableNoOfData}
 #| echo: false
 #| error: false
 #| message: false
 #| warning: false
-#| fig.cap: 'Supplementary Material: Relationship between the spectroradiometer-derived NDVI values and the seagrass aboveground carbon stock.'
 
-df %>%
+count_valid <- function(vector) {
+  return(sum(!is.na(vector)))
+}
+
+table.data <- data.frame(
+  list(
+    "Site" = c('Bourgneuf Bay', 'Bourgneuf Bay', 'Bourgneuf Bay', 'Ria de Aveiro', 'Cadiz Bay', 'Total'),
+    
+    "Year" = c(2018, 2019, 2025, 2025, 2025, ''),
+    
+    "Radiometry" = c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi), 
+                     sum(c(count_valid(BB.2018$ndvi), count_valid(BB.2019$ndvi), count_valid(BB.2025$ndvi), count_valid(AV.2025$ndvi), count_valid(CB.2025$ndvi)))),
+    
+    "Aboveground biomass" = c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2), 
+                              sum(c(count_valid(BB.2018$A_per_m2), count_valid(BB.2019$A_per_m2), count_valid(BB.2025$A_per_m2), count_valid(AV.2025$A_per_m2), count_valid(CB.2025$A_per_m2)))),
+    
+    "Belowground biomass" = c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2), 
+                              sum(c(count_valid(BB.2018$B_per_m2), count_valid(BB.2019$B_per_m2), count_valid(BB.2025$B_per_m2), count_valid(AV.2025$B_per_m2), count_valid(CB.2025$B_per_m2)))), 
+    
+    "Aboveground carbon" = c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A), 
+                             sum(c(count_valid(BB.2018$TOC_A), count_valid(BB.2019$TOC_A), count_valid(BB.2025$TOC_A), count_valid(AV.2025$TOC_A), count_valid(CB.2025$TOC_A)))),
+    
+    "Belowground carbon" = c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B), 
+                             sum(c(count_valid(BB.2018$TOC_B), count_valid(BB.2019$TOC_B), count_valid(BB.2025$TOC_B), count_valid(AV.2025$TOC_B), count_valid(CB.2025$TOC_B)))),
+    
+    "Source" = c('@zoffoli2020', '@zoffoli2020', 'Current study', 'Current study', 'Current study', '')
+  )
+)
+
+names(table.data) <- c('Site', 'Year', 'Radiometry', 'Aboveground biomass', 'Belowground biomass', 'Aboveground carbon', 'Belowground carbon', 'Source')
+
+knitr::kable(table.data, 
+             format = "pipe",
+             align = 'c',
+             caption = 'Available data across the different field campaign.')
+```
+
+```{r SupMatlgAGCvsNDVI}
+#| echo: false
+#| error: false
+#| message: false
+#| warning: false
+#| fig.cap: 'Relationship between the seagrass aboveground carbon (AGC) and the spectroradiometer-derived NDVI values.'
+
+relabel_eq <- function(label, r2) {
+  new_label <- gsub("italic\\(x\\)", "NDVI", label) %>%
+    gsub("italic\\(y\\)", "ln(AGC)", .)
+    
+  output <- paste("atop(", new_label, ",", r2, ")")
+  
+  return(output)
+}
+
+# plt.agcNDVI.log <- df %>%
+#   select(ID, Carbon_stock_A, ndvi, year, site, Group) %>%
+#   ggplot(aes(x = ndvi, y = log(Carbon_stock_A))) +
+#     geom_smooth(method = 'lm', colour = 'black') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
+#     geom_point_setting +
+#     xlab('NDVI') + ylab('Log-transformed\nAGC (g/m²)') +
+#       # stat_regline_equation(label.x.npc = 'centre', label.y.npc = 'bottom', decreasing = TRUE, aes(label = paste("atop(", ..eq.label.., ",", ..adj.rr.label.., ")")), colour = 'black', size = base_size*0.4, vjust = 0, hjust = 0.5) +
+#     stat_regline_equation(label.x.npc = 'centre', label.y.npc = 'bottom', decreasing = TRUE, aes(label = relabel_eq(..eq.label.., ..adj.rr.label..)), colour = 'black', size = base_size*0.3, vjust = 0, hjust = 0.5) +
+#     theme_axis
+
+plt.agcNDVI.curve <- df %>%
   select(ID, Carbon_stock_A, ndvi, year, site, Group) %>%
-  ggplot(aes(x = Carbon_stock_A, y = ndvi)) +
-    stat_function(fun = function(x) {0.675 - 0.75 * exp(-0.08*x)}, colour = 'blue') +
-    geom_point() +
-    xlab('Aboveground carbon stock (g/m²)') + ylab('NDVI') +
-    annotate('text', x = 75, y = 0.5, hjust = 0, vjust = 0, label = substitute(y == a * (1 - b*e^(c*"*"*x) ), 
-             list(x = "AGB", y = "NDVI",
-                  a = 0.675 %>% round(2),
-                  b = 0.75 %>% round(2),
-                  c = -0.08 %>% round(2)
-             )) %>% 
+  ggplot(aes(x = ndvi, y = Carbon_stock_A)) +
+    stat_function(fun = function(x) {0.35 * exp(8.2*x)}, colour = 'black') +
+    # geom_smooth(method = 'lm') + # use this only for temporary measures; best to lm() or nls() and create the uncertainty and line ourselves
+    geom_point_setting +
+    xlab('NDVI') + ylab('AGC (g/m²)') +
+    annotate('text', x = 0.1, y = 75, hjust = 0, vjust = 0, label = substitute(y == a *"*"* e^{b*"*"*x},
+             list(x = "NDVI", y = "AGC",
+                  a = 0.35 %>% round(2),
+                  b = 8.2 %>% round(2)
+             )) %>%
                 as.expression() %>%
-                as.character(), 
-            parse = TRUE, colour = 'blue') +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA),
-          axis.line = element_line(colour = "black"),
-          axis.title = element_text(size = base_size),
-          axis.text = element_text(size = base_size*0.8),
-          legend.title = element_text(size = base_size),
-          legend.text = element_text(size = base_size*0.8)
-          )
+                as.character(),
+             parse = TRUE, colour = 'black', size = base_size*0.4) +
+    theme_axis
+
+# plt.agcNDVI.log + plt.agcNDVI.curve
+plt.agcNDVI.curve
 ```
 
 ## References
