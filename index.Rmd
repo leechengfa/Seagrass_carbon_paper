@@ -974,6 +974,12 @@ table.data <- data.frame(
     "Cumulative seagrass area" = c(sum.cumArea.BB, sum.cumArea.AV, sum.cumArea.CB,
                                    sum(sum.cumArea.BB, sum.cumArea.AV, sum.cumArea.CB)) %>% round(2),
     
+    "BGB/AGB ratio" = c(df.agbbgb.table %>% dplyr::filter(location == 'BB_2025') %>% select(mean_BGB_AGB) %>% pull() %>% round(2),
+                        df.agbbgb.table %>% dplyr::filter(location == 'AV_2025') %>% select(mean_BGB_AGB) %>% pull() %>% round(2),
+                        df.agbbgb.table %>% dplyr::filter(location == 'CB_2025') %>% select(mean_BGB_AGB) %>% pull() %>% round(2),
+                        ''
+                        ),
+    
     "Aboveground biomass" = c(sum.agb.BB, sum.agb.AV, sum.agb.CB,
                               sum(c(sum.agb.BB, sum.agb.AV, sum.agb.CB))) %>% round(2),
     
@@ -988,7 +994,7 @@ table.data <- data.frame(
   )
 )
 
-names(table.data) <- c('Site', 'Date', 'Total intertidal area (ha)', 'Cumulative seagrass area (ha)', 'Total aboveground biomass (Mg DW)', 'Total belowground biomass (Mg DW)', 'Total aboveground carbon stock (Mg C)', 'Total belowground carbon stock (Mg C)')
+names(table.data) <- c('Site', 'Date', 'Total intertidal area (ha)', 'Cumulative seagrass area (ha)', 'Belowground biomass to aboveground biomass ratio', 'Total aboveground biomass (Mg DW)', 'Total belowground biomass (Mg DW)', 'Total aboveground carbon stock (Mg C)', 'Total belowground carbon stock (Mg C)')
 
 knitr::kable(table.data, 
              format = "pipe",
