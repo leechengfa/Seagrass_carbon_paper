@@ -410,19 +410,19 @@ The measurement of total carbon (TC) and inorganic carbon (IC) content in fly as
 To measure the TC content in a sample, about 70g of powdered biomass was combusted at 900 °C for 8 minutes. For the IC content measurement, between 200-800 g of powdered biomass was mixed with 0.9 ml of phosphorous acid (HPO3) and combusted at 300 °C until no carbon dioxide is detected. The increased weight of sample used was to increase the IC content measurement, as about 200 g of sample produced around 2 mg of carbon while 700 g of sample yielded around 6 mg of carbon. The measurements were scaled to the unit weight of the samples based on the sample dry weight used for the measurement (Equation \@ref(eq:carbon)).
 
 \begin{equation}
-Carbon\,content\,(g\,per\,C/g) = \frac{Measured\,Carbon\,(g)}{Sample\,Dry\,weight\,(g)} (\#eq:carbon)
+\text{Carbon content (g per C/g)} = \frac{\text{Measured carbon (g)}}{\text{Sample dry weight (g)}} (\#eq:carbon)
 \end{equation}
 
 A subset of the samples were used to test for possible water content in the sample. These samples were placed in a 105 &deg;C oven and measured after 2 hours and 3 hours. Any difference in weight was attributed to water content loss (Equation \@ref(eq:correctedDW)). Since only a subset was used in this test, the results were averaged and used to correct for the sample dry weight in Equation \@ref(eq:carbon).
 
 \begin{equation}
-Corrected\,dry\,weight = \frac{Pre-oven\,dry\,weight}{Post-oven\,dry\,weight} \times Subsampled\,dry\,weight (\#eq:correctedDW)
+\text{Corrected dry weight} = \frac{\text{Pre-oven dry weight}}{\text{Post-oven dry weight}} \times \text{Subsampled dry weight} (\#eq:correctedDW)
 \end{equation}
 
 The [difference between the TC and IC content is the total organic carbon content (TOC)](https://www.shimadzu.com/an/apl/24168/index.html) (Equation \@ref(eq:toc)). The TOC is the mass of organic carbon in a unit mass of a dry weight sample.
 
 \begin{equation}
-TOC\,(g\,C/g) = TC - TIC (\#eq:toc)
+\text{TOC (g C/g)} = \text{TC} - \text{TIC} (\#eq:toc)
 \end{equation}
 
 #### Radiometric measurements
@@ -452,7 +452,7 @@ Post-smoothing, only the wavelengths from 400 nm to 900 nm were retained and a m
 For comparison with the Sentinel 2 imagery, the wavelengths were degraded to the Sentinel 2 bands based on the spectral response function of Sentinel 2A provided in “COPE-GSEG-EOPG-TN-15-0007 - Sentinel-2 Spectral Response Functions 2022 - 3.2” [@esa2023]. From the degraded bands, the Normalised Difference Vegetation Index (NDVI) was derived using Equation \@ref(eq:ndvi):
 
 \begin{equation}
-NDVI = \frac{R(\lambda_{NIR}) - R(\lambda_{Red})}{R(\lambda_{NIR}) + R(\lambda_{Red})} (\#eq:ndvi)
+\text{NDVI} = \frac{R(\lambda_{\text{NIR}}) - R(\lambda_{\text{Red}})}{R(\lambda_{\text{NIR}}) + R(\lambda_{\text{Red}})} (\#eq:ndvi)
 \end{equation}
 
 
@@ -463,7 +463,7 @@ The relationships between the spectroradiometer reflectance and aboveground biom
 
 #### Satellite data and processing
 
-Low tide Sentinel-2 Level-2A Surface reflectance R(λ) images with few clouds or cloud shadows over the study sites were identified and downloaded. 
+Low tide Sentinel-2 Level-2A Surface reflectance _R(λ)_ images with few clouds or cloud shadows over the study sites were identified and downloaded. 
 
 The images were then processed with the two step ICE CREAMS model approach. Firstly, an intertidal mask to produce an intertidal classification map, a seagrass cover map and a classification uncertainty map. Pixels that do not fulfil all three conditions were masked:
 
@@ -472,12 +472,12 @@ The images were then processed with the two step ICE CREAMS model approach. Firs
 3.	Have a seagrass percent cover of at least 20%
 
 Next, the seagrass cumulative extent was calculated by summing the masked seagrass cover map. Since each pixel of the ICE CREAMS output maps is 100 m2, therefore each unit in percent cover of the pixel would directly translate into a unit area of the seagrass extent in square metres [@davies2024b]. 
-Since the current version of ICE CREAMS no longer provides an NDVI map as a default output, an NDVI image was derived from the masked Sentinel 2 Level 2A R(λ) images using Equation \@ref(eq:ndvi).
+Since the current version of ICE CREAMS no longer provides an NDVI map as a default output, an NDVI image was derived from the masked Sentinel 2 Level 2A _R(λ)_ images using Equation \@ref(eq:ndvi).
 
 
 #### Predicted seagrass carbon map
 
-The relationships established in Section 2.3. were applied to the masked Sentinel 2 Level 2A R(λ) images to predict and map the above- and belowground seagrass biomass and their corresponding carbon content. By multiplying the seagrass biomass map with the relationship between seagrass biomass and carbon content, the seagrass carbon stock map can be obtained. These biomass and carbon stock maps were then separately summed to obtain the total seagrass biomass and total seagrass carbon stock in each site.
+The relationships established in Section 2.3. were applied to the masked Sentinel 2 Level 2A _R(λ)_ images to predict and map the above- and belowground seagrass biomass and their corresponding carbon content. By multiplying the seagrass biomass map with the relationship between seagrass biomass and carbon content, the seagrass carbon stock map can be obtained. These biomass and carbon stock maps were then separately summed to obtain the total seagrass biomass and total seagrass carbon stock in each site.
 
 
 #### Validation and error propagation
@@ -651,7 +651,7 @@ plt.ndvi_agb + plt.ndvi_agc
 This is the equation used for the estimation of aboveground carbon from NDVI:
 
 \begin{equation}
-AGC = 0.35 * e^{8.2*NDVI} (\#eq:ndviagc)
+\text{AGC} = 0.35 * \mathrm{e}^{8.2*\text{NDVI}} (\#eq:ndviagc)
 \end{equation}
 
 
