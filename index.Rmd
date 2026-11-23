@@ -994,7 +994,7 @@ table.data <- data.frame(
   )
 )
 
-names(table.data) <- c('Site', 'Date', 'Total intertidal area (ha)', 'Cumulative seagrass area (ha)', 'Belowground biomass to aboveground biomass ratio', 'Total aboveground biomass (Mg DW)', 'Total belowground biomass (Mg DW)', 'Total aboveground carbon stock (Mg C)', 'Total belowground carbon stock (Mg C)')
+names(table.data) <- c('Site', 'Date', 'Total intertidal area (ha)', 'Cumulative seagrass area (ha)', 'Mean Belowground biomass to aboveground biomass ratio', 'Total aboveground biomass (Mg DW)', 'Total belowground biomass (Mg DW)', 'Total aboveground carbon stock (Mg C)', 'Total belowground carbon stock (Mg C)')
 
 knitr::kable(table.data, 
              format = "pipe",
